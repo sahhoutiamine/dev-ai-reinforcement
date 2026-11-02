@@ -1,4 +1,4 @@
-# 📘 From Raw Dataset to Machine-Learning-Ready Data
+# From Raw Dataset to Machine-Learning-Ready Data
 
 > A detailed, practical guide that explains every concept in three steps: **What is it? → Why do we use it? → How does it work? (with a hands-on example)**.
 
@@ -7,7 +7,7 @@
 
 ---
 
-## 🗺️ The Big Picture (Pipeline)
+## The Big Picture (Pipeline)
 
 ```
 Raw dataset  →  Exploration (EDA)  →  Cleaning  →  Preprocessing  →  ML model
@@ -21,7 +21,7 @@ Raw dataset  →  Exploration (EDA)  →  Cleaning  →  Preprocessing  →  ML 
 | **C** | Cleaning + EDA | Understanding and cleaning the data |
 | **D** | Preprocessing | Preparing data for the model without leakage |
 
-### 📦 Standard imports
+### Standard imports
 
 ```python
 import numpy as np
@@ -32,7 +32,7 @@ import seaborn as sns
 
 ---
 
-# 🔢 Block A — NumPy
+# Block A — NumPy
 
 **NumPy** is Python's numerical computing library. Pandas, Scikit-learn and many other libraries are built on top of it.
 
@@ -124,7 +124,7 @@ d = np.zeros((28, 28, 3))           # RGB image
 print(a.ndim, b.ndim, c.ndim, d.ndim)   # 0 1 2 3
 ```
 
-> ⚠️ Difference between `shape` and `ndim`: `ndim = len(shape)`.
+> Difference between `shape` and `ndim`: `ndim = len(shape)`.
 
 ---
 
@@ -249,7 +249,7 @@ X = data[:, :-1]         # all columns except the last
 y = data[:, -1]          # last column
 ```
 
-> ⚠️ **Warning:** a slice is a **view** (a window onto the same data); modifying it modifies the original. Use `.copy()` for an independent copy.
+> **Warning:** a slice is a **view** (a window onto the same data); modifying it modifies the original. Use `.copy()` for an independent copy.
 
 ```python
 b = a[2:5].copy()
@@ -373,7 +373,7 @@ print(np.mean(x))        # nan
 print(np.nanmean(x))     # 2.0
 ```
 
-> 💡 **Axis rule:** `axis=0` = collapse the **rows** (one result per column); `axis=1` = collapse the **columns** (one result per row).
+> **Axis rule:** `axis=0` = collapse the **rows** (one result per column); `axis=1` = collapse the **columns** (one result per row).
 
 ---
 
@@ -426,7 +426,7 @@ print(X_scaled.mean(axis=0))  # ≈ [0 0]
 
 ---
 
-# 🐼 Block B — Pandas
+# Block B — Pandas
 
 **Pandas** is a library for working with tabular data. Its two core structures are:
 - **Series**: a single column (1D) with an index.
@@ -597,7 +597,7 @@ df.info()
 #  ...
 ```
 
-> 💡 If you see `Age 714 non-null` out of 891 rows → 177 values are missing.
+> If you see `Age 714 non-null` out of 891 rows → 177 values are missing.
 
 ---
 
@@ -660,7 +660,7 @@ df.loc[df["name"] == "Ali", "salary"] = 5500
 |---|---|---|
 | Based on | Labels/index | Integer position |
 | `a:b` | Includes b | Excludes b |
-| Accepts a boolean condition | ✅ | ✅ (values only) |
+| Accepts a boolean condition | Yes | Yes (values only) |
 
 ---
 
@@ -688,7 +688,7 @@ df[df["salary"].between(5000, 8000)]       # range
 df.query("age > 25 and city == 'Rabat'")
 ```
 
-> ⚠️ Use `&` and `|` (not `and`/`or`) with parentheses around each condition.
+> Use `&` and `|` (not `and`/`or`) with parentheses around each condition.
 
 ---
 
@@ -864,7 +864,7 @@ pd.concat([df1, df2], axis=0, ignore_index=True)
 
 ---
 
-# 🧹 Block C — Cleaning & Exploration (Cleaning & EDA)
+# Block C — Cleaning & Exploration (Cleaning & EDA)
 
 > **EDA = Exploratory Data Analysis**: understanding the data before any modeling.
 > **Cleaning**: fixing problems such as missing values, duplicates and wrong types.
@@ -911,7 +911,7 @@ sns.heatmap(dirty.isna(), cbar=False)
 plt.show()
 ```
 
-> 💡 Rule of thumb: if a column is **>60%** missing, consider dropping it. If only a little is missing, fill it (impute).
+> Rule of thumb: if a column is **>60%** missing, consider dropping it. If only a little is missing, fill it (impute).
 
 ---
 
@@ -971,7 +971,7 @@ dirty["age"] = dirty["age"].fillna(
 )
 ```
 
-> ⚠️ **Important warning:** in an ML project, compute the mean/median from **train only** (see Data Leakage in Block D). Using `fillna` on the whole dataset before splitting leaks information from the test set.
+> **Important warning:** in an ML project, compute the mean/median from **train only** (see Data Leakage in Block D). Using `fillna` on the whole dataset before splitting leaks information from the test set.
 
 ---
 
@@ -1146,7 +1146,7 @@ plt.show()
 # titanic.groupby("sex")["survived"].mean()
 ```
 
-> ⚠️ Correlation **does not imply** causation.
+> Correlation **does not imply** causation.
 
 ---
 
@@ -1187,7 +1187,7 @@ plt.show()
 
 ---
 
-## ✅ Complete Cleaning Example
+## Complete Cleaning Example
 
 ```python
 df = pd.read_csv("data.csv")
@@ -1212,11 +1212,11 @@ df = df[df["age"].between(0, 120) | df["age"].isna()]
 print(df.shape); print(df.isna().sum())
 ```
 
-> 💡 Note: **statistical** NaN filling (mean/median) is postponed until after `train_test_split` in ML projects, as we'll see next.
+> Note: **statistical** NaN filling (mean/median) is postponed until after `train_test_split` in ML projects, as we'll see next.
 
 ---
 
-# 🤖 Block D — Preprocessing for AI
+# Block D — Preprocessing for AI
 
 We'll use this example throughout this section:
 
@@ -1252,7 +1252,7 @@ y = data["bought"]
 print(X.shape, y.shape)             # (10, 4) (10,)
 ```
 
-> ⚠️ Also make sure to drop columns like `id`, or columns derived from the target.
+> Also make sure to drop columns like `id`, or columns derived from the target.
 
 ---
 
@@ -1334,7 +1334,7 @@ le = LabelEncoder()
 y_enc = le.fit_transform(["cat", "dog", "cat"])   # [0 1 0]
 ```
 
-> ⚠️ Don't use sequential numbers (Rabat=0, Casa=1, Fes=2) for an unordered variable; the model would assume Fes > Casa > Rabat.
+> Don't use sequential numbers (Rabat=0, Casa=1, Fes=2) for an unordered variable; the model would assume Fes > Casa > Rabat.
 > `handle_unknown="ignore"` prevents a crash if a new category appears in test.
 
 ---
@@ -1418,7 +1418,7 @@ X_test_mm  = mm.transform(X_test_num)           # transform only!
 
 ---
 
-## D6. Preventing Data Leakage ⚠️ The Most Important Topic
+## D6. Preventing Data Leakage — The Most Important Topic
 
 ### What is it?
 **Information from the test data (or from the future/target)** reaching the training stage, making the model look better than it really is.
@@ -1459,7 +1459,7 @@ X_test_s  = scaler.transform(X_test)        # transform only ✅
 - **Feature selection / PCA** on the whole data before splitting.
 - **Cross-validation** with a scaler already fitted on all the data.
 
-### 🏆 Best solution: `Pipeline` + `ColumnTransformer`
+### Best solution: `Pipeline` + `ColumnTransformer`
 
 Bundles all steps and automatically guarantees no leakage (even inside cross-validation):
 
@@ -1513,7 +1513,7 @@ print(scores.mean())
 
 ---
 
-# 🧪 Suggested Mini-Project (End-to-End Practice)
+# Suggested Mini-Project (End-to-End Practice)
 
 Use the Titanic dataset:
 
@@ -1533,7 +1533,7 @@ titanic = sns.load_dataset("titanic")
 
 ---
 
-# 📝 Quick Reference (Cheat Sheet)
+# Quick Reference (Cheat Sheet)
 
 ### NumPy
 ```python
@@ -1566,7 +1566,7 @@ Pipeline + ColumnTransformer  ← the safe solution against Data Leakage
 
 ---
 
-# 🔗 Further Reading
+# Further Reading
 
 - [NumPy Quickstart](https://numpy.org/doc/stable/user/quickstart.html)
 - [NumPy User Guide](https://numpy.org/doc/stable/user/basics.html)
@@ -1579,4 +1579,4 @@ Pipeline + ColumnTransformer  ← the safe solution against Data Leakage
 
 ---
 
-**Good luck on your data science journey! 🚀**
+**Good luck on your data science journey!**
